@@ -23,4 +23,8 @@
 #define DEC 18
 #define NAN -1
 
+#define delete(A) free(A)
+#define nullptr NULL
+#define new(T,N) (T*)malloc(N*sizeof(T))
+
 #endif
