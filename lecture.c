@@ -4,6 +4,59 @@
 #include <string.h>
 #include <stdbool.h>
 
+int askForCommand(Parameters* param){
+  char input[300];
+  char* function;
+  int ret=0;
+  gets(entrada);
+  ret=ProcessInput(input, &function, param);
+  if(ret){
+    ret=NAN;
+  }else{
+    if(!strcmp(function,"quit")){
+        ret=((param->size==0)? QUIT:NAN);
+    }else if(!strcmp(function,"newdb")){
+        ret=((param->size==1)? NEWDB:NAN);
+    }else if(!strcmp(function,"savedb")){
+        ret=((param->size==0)? SAVEDB:NAN);
+    }else if(!strcmp(function,"listdb")){
+        ret=((param->size==0)? LISTDB:NAN);
+    }else if(!strcmp(function,"activedb")){
+        ret=((param->size==1)? ACTIVEDB:NAN);
+    }else if(!strcmp(function,"newcab")){
+        ret=((param->size==1)? NEWCAB:NAN);
+    }else if(!strcmp(function,"listcab")){
+        ret=((param->size==0)? LISTCAB:NAN);
+    }else if(!strcmp(function,"activecab")){
+        ret=((param->size==1)? ACTIVECAB:NAN);
+    }else if(!strcmp(function,"set")){
+        ret=((param->size==2)? SET:NAN);
+    }else if(!strcmp(function,"get")){
+        ret=((param->size==1)? GET:NAN);
+    }else if(!strcmp(function,"del")){
+        ret=((param->size==1)? DEL:NAN);
+    }else if(!strcmp(function,"rpush")){
+        ret=((param->size==2)? RPUSH:NAN);
+    }else if(!strcmp(function,"lpush")){
+        ret=((param->size==2)? LPUSH:NAN);
+    }else if(!strcmp(function,"rpop")){
+        ret=((param->size==1)? RPOP:NAN);
+    }else if(!strcmp(function,"lpop")){
+        ret=((param->size==1)? LPOP:NAN);
+    }else if(!strcmp(function,"range")){
+        ret=(((params->size == 1)||(param->size == 3))? RANGE:NAN);
+    }else if(!strcmp(function,"key")){
+        ret=((param->size==1)? KEY:NAN);
+    }else if(!strcmp(function,"inc")){
+        ret=((param->size==1)? INC:NAN);
+    }else if(!strcmp(function,"dec")){
+        ret=((param->size==1)? DEC:NAN);
+    }else ret=NAN;
+  }
+  delete(function);
+  return ret;
+}
+
 int ProcessInput(char* input, char** function, Parameters* param){
   char cad [300];
   int cont = 0, cont2=0, inSize = strlen(input);
