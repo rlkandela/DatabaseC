@@ -12,6 +12,7 @@ int ObtainParameters(char* input, Parameters* param){
   for(short cont = 0; cont<inSize; cont++){
     short cont2 = 0;
     if(input[cont] == '"'){
+      cont++;
       while(input[cont]!='"' && cont<inSize){
         if(emptyField && input[cont]!=' '){
           emptyField = false;
@@ -28,6 +29,9 @@ int ObtainParameters(char* input, Parameters* param){
         do{
           cont++;
         }while(cont<inSize && input[cont]==' ');
+        if(cont<inSize){
+          cont--;
+        }
         cad[0] = 0;
       }
     }else{
@@ -41,6 +45,9 @@ int ObtainParameters(char* input, Parameters* param){
       do{
         cont++;
       }while(cont<inSize && input[cont]==' ');
+      if(cont<inSize){
+        cont--;
+      }
       cad[0] = 0;
     }
     emptyField=true;
