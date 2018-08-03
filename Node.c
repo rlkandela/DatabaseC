@@ -10,6 +10,7 @@ Node *createNode(void){
   ret->val = nullptr;
   ret->next = nullptr;
   ret->isList = false;
+  return ret;
 }
 
 void deleteNode(Node* n){
@@ -62,5 +63,35 @@ void rpop(Node* n){
   delete(n->val);
   n->val = new(char,len+1);
   strcpy(n->val,aux);
+  bool stiList=false;
+  for(int i=0;!stiList && i<strlen(n->val);i++){
+    if(n->val[i]==LIST_SEPARATOR){
+      stiList=true;
+    }
+  }
+  n->isList=stiList
+  return;
+}
+
+void lpop(Node* n){
+  int i,len=strlen(n->val);
+  char aux [1000];
+  for(i=0;i<len && n->val[i]!=LIST_SEPARATOR;i++);
+  i++;
+  int j;
+  for(j=0;i<=len;i++,j++){
+    aux[j]=n->val[i];
+  }
+  int len = strlen(aux);
+  delete(n->val);
+  n->val = new(char,len+1);
+  strcpy(n->val,aux);
+  bool stiList=false;
+  for(int i=0;!stiList && i<strlen(n->val);i++){
+    if(n->val[i]==LIST_SEPARATOR){
+      stiList=true;
+    }
+  }
+  n->isList=stiList
   return;
 }
