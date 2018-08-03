@@ -3,35 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-void ObtainParameters(char* input, Parameters* param){
-  short inSize = strlen(input);
-  short comAmount = 0;
-  bool emptyField = true;
-  char cad[100];
-  for(short cont = 0; cont<inSize; cont++){
-    if(input[cont] == '"'){
-      comAmount++;
-      cont++;
-    }
-    if(comAmount%2 != 0){
-      short cont2 = 0;
-      while(cont<inSize && (input[cont] != '"')){
-        if(input[cont] != ' '){
-          emptyField = false;
-        }
-        cad[cont2] = input[cont];
-        cont2++;
-        cont++;
-      }
-      if(input[cont] == '"'){
-        cad[cont2] = 0;
-      }
-    }
-    emptyField=true;
-  }
-  return;
-}
-
 int ObtainParameters(char* input, Parameters* param){
   short inSize = strlen(input);
   short comAmount = 0;
