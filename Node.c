@@ -69,7 +69,7 @@ void rpop(Node* n){
       stiList=true;
     }
   }
-  n->isList=stiList
+  n->isList=stiList;
   return;
 }
 
@@ -82,7 +82,7 @@ void lpop(Node* n){
   for(j=0;i<=len;i++,j++){
     aux[j]=n->val[i];
   }
-  int len = strlen(aux);
+  len = strlen(aux);
   delete(n->val);
   n->val = new(char,len+1);
   strcpy(n->val,aux);
