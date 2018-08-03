@@ -8,7 +8,7 @@ int askForCommand(Parameters* param){
   char input[300];
   char* function;
   int ret=0;
-  gets(entrada);
+  gets(input);
   ret=ProcessInput(input, &function, param);
   if(ret){
     ret=NAN;
@@ -44,7 +44,7 @@ int askForCommand(Parameters* param){
     }else if(!strcmp(function,"lpop")){
         ret=((param->size==1)? LPOP:NAN);
     }else if(!strcmp(function,"range")){
-        ret=(((params->size == 1)||(param->size == 3))? RANGE:NAN);
+        ret=(((param->size == 1)||(param->size == 3))? RANGE:NAN);
     }else if(!strcmp(function,"key")){
         ret=((param->size==1)? KEY:NAN);
     }else if(!strcmp(function,"inc")){
