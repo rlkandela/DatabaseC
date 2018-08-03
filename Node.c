@@ -92,6 +92,6 @@ void lpop(Node* n){
       stiList=true;
     }
   }
-  n->isList=stiList
+  n->isList=stiList;
   return;
 }
