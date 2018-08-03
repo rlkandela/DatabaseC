@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 int ObtainParameters(char* input, Parameters* param){
   short inSize = strlen(input);
