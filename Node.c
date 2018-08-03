@@ -47,3 +47,20 @@ void lpush(char* toAdd, Node* n){
   strcpy(n->val,aux);
   return;
 }
+
+void rpop(Node* n){
+  char aux [1000];
+  bool done = false;
+  for(int i = strlen(n->val)-1;i>=0 && !done; i--){
+    if(n->val[i] == LIST_SEPARATOR){
+      n->val[i] = 0;
+      done=true;
+    }
+  }
+  strcpy(aux,n->val);
+  int len = strlen(aux);
+  delete(n->val);
+  n->val = new(char,len+1);
+  strcpy(n->val,aux);
+  return;
+}
