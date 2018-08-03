@@ -6,7 +6,7 @@
       char* key;
       char* val;
       bool isList;
-      struct Node *next;
+      struct Node* next;
   }Node;
 
   Node* createNode();
