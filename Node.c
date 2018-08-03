@@ -11,3 +11,9 @@ Node *createNode(void){
   ret->next = nullptr;
   ret->isList = false;
 }
+
+void deleteNode(Node* n){
+  delete(n->val);
+  delete(n->key);
+  delete(n);
+}
