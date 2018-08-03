@@ -18,7 +18,7 @@ void deleteNode(Node* n){
   delete(n);
 }
 
-void rpush(char* toAdd,Node* n){
+void rpush(char* toAdd, Node* n){
   n->isList = true;
   char aux [1000];
   strcpy(aux,n->val);
@@ -29,6 +29,21 @@ void rpush(char* toAdd,Node* n){
   len = strlen(n->val);
   delete(n->val);
   n->val = new(char,len+1);
+  strcpy(n->val,aux);
+  return;
+}
+
+void lpush(char* toAdd, Node* n){
+  n->isList = true;
+  char aux [1000];
+  strcpy(aux,toAdd);
+  int len = strlen(aux);
+  aux[len]=LIST_SEPARATOR;
+  aux[len+1]=0;
+  strcat(aux,n->val);
+  delete(n->val);
+  len = strlen(aux);
+  n->val = new(char, len+1);
   strcpy(n->val,aux);
   return;
 }
