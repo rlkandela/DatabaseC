@@ -4,6 +4,28 @@
 #include <string.h>
 #include <stdbool.h>
 
+int ProcessInput(char* input, char** function, Parameters* param){
+  char cad [300];
+  int cont = 0, cont2=0, inSize = strlen(input);
+  while(input[cont++]==' ');
+  cont--;
+  while(cont<inSize && input[cont]!=' '){
+    cad[cont2++] = input[cont++];
+  }
+  cad[cont2] = 0;
+  (*function)=new(char,strlen(cad)+1);
+  strcpy(*function,cad);
+  cad[0] = 0;
+  while(input[cont++]==' ');
+  cont--;
+  cont2=0;
+  while(cont<inSize){
+    cad[cont2++] = input[cont++];
+  }
+  cad[cont2] = 0;
+  return ObtainParameters(cad, param);
+}
+
 int ObtainParameters(char* input, Parameters* param){
   short inSize = strlen(input);
   short comAmount = 0;
