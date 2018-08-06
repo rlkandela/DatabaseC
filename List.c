@@ -18,6 +18,22 @@ void deleteList(List* l){
   return;
 }
 
+bool addNodeOnPosition(List* l, Node* n, int p){
+  if(p==1){
+    n->next = l->head;
+    l->head = n;
+    return true;
+  }else if(p>l->size+1){
+    return addNodeOnPosition(l,n,l->size+1);
+  }else if(p>1){
+    Node* pn=retrieveNode(l,p-1);
+    n->next = pn->next;
+    pn->next = n;
+    return true;
+  }
+  return false;
+}
+
 bool addNode(List* l, Node* n){
   return addNodeOnPosition(l,n,l->size+1);
 }
