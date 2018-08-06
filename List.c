@@ -114,4 +114,5 @@ bool quitNode(List* l, Node* n){
 
 void makeNull(List* l){
   while(quitNode(l,l->head));
+  return;
 }
