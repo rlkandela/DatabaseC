@@ -29,12 +29,28 @@ Node* heap(List* l){
 }
 
 Node* searchKey(List* l, char* str){
-  n=l->head;
+  Node* n=l->head;
   if(n!=nullptr){
     while(n!=nullptr){
       if(strcmp(n->key,str)==0){
         return n;
       }else{
+        n=n->next;
+      }
+    }
+  }
+  return nullptr;
+}
+
+Node* previousNode(List* l, Node* nd){
+  Node* n=l->head;
+  if(n!=nullptr){
+    Node* nn=l->head->next;
+    while(nn != nullptr){
+      if(nd==nn){
+        return n;
+      }else{
+        nn=nn->next;
         n=n->next;
       }
     }
