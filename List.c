@@ -17,3 +17,13 @@ void deleteList(List* l){
   delete(l);
   return;
 }
+
+Node* heap(List* l){
+  Node* n = l->head;
+  if(n!=nullptr){
+    while(n->next!=nullptr){
+      n=n->next;
+    }
+  }
+  return n;
+}
