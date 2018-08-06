@@ -11,3 +11,9 @@ List* createList(void){
   ret->head = nullptr;
   return ret;
 }
+
+void deleteList(List* l){
+  delete(l->name);
+  delete(l);
+  return;
+}
