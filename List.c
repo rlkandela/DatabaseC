@@ -22,6 +22,7 @@ bool addNodeOnPosition(List* l, Node* n, int p){
   if(p==1){
     n->next = l->head;
     l->head = n;
+    l->size++;
     return true;
   }else if(p>l->size+1){
     return addNodeOnPosition(l,n,l->size+1);
@@ -29,6 +30,7 @@ bool addNodeOnPosition(List* l, Node* n, int p){
     Node* pn=retrieveNode(l,p-1);
     n->next = pn->next;
     pn->next = n;
+    l->size++;
     return true;
   }
   return false;
@@ -95,12 +97,14 @@ bool quitNode(List* l, Node* n){
   if(n == l->head){
     l->head = l->head->next;
     deleteNode(n);
+    l->size--;
     return true;
   }else{
     Node* pn = previousNode(l,n);
     if(pn != nullptr){
       pn->next = n->next;
       deleteNode(n);
+      l->size--;
       return true;
     }
   }
