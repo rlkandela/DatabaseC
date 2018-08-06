@@ -59,15 +59,17 @@ Node* previousNode(List* l, Node* nd){
 }
 
 bool quitNode(List* l, Node* n){
-  Node* pn = previousNode(l,n);
-  if(pn != nullptr){
-    pn->next = n->next;
-    deleteNode(n);
-    return true;
-  }else if(n == l->head){
+  if(n == l->head){
     l->head = l->head->next;
     deleteNode(n);
     return true;
+  }else{
+    Node* pn = previousNode(l,n);
+    if(pn != nullptr){
+      pn->next = n->next;
+      deleteNode(n);
+      return true;
+    }
   }
   return false;
 }
