@@ -18,6 +18,23 @@ void deleteList(List* l){
   return;
 }
 
+bool addNode(List* l, Node* n){
+  return addNodeOnPosition(l,n,l->size+1);
+}
+
+Node* retrieveNode(List* l, int p){
+  if(p>=1){
+    Node *ret = l->head;
+    for(int i=1;i<p;i++){
+      if(ret != nullptr){
+        ret = ret->next;
+      }
+    }
+    return ret;
+  }
+  return nullptr;
+}
+
 Node* heap(List* l){
   Node* n = l->head;
   if(n!=nullptr){
