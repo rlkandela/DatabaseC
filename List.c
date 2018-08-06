@@ -71,3 +71,7 @@ bool quitNode(List* l, Node* n){
   }
   return false;
 }
+
+void makeNull(List* l){
+  while(quitNode(l,l->head));
+}
