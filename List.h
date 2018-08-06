@@ -19,4 +19,5 @@ Node* searchKey(List*, char*);
 Node* previousNode(List*, Node*);
 bool quitNode(List*, Node*);
 void makeNull(List*);
+
 #endif
