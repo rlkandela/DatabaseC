@@ -11,6 +11,8 @@ typedef struct List{
 
 List* createList(void);
 void deleteList(List*);
+bool addNodeOnPosition(List*, Node*, Int);
+bool addNode(List*, Node*);
 Node* heap(List*);
 Node* searchKey(List*, char*);
 Node* previousNode(List*, Node*);
