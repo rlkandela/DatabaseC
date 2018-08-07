@@ -25,4 +25,15 @@
   void listcab(DB*);
   void activecab(DB*,Parameters*);
   void setkv(DB*,Parameters*);
+  void getk(DB*,Parameters*);
+  void delk(DB*,Parameters*);
+  void rpushkv(DB*,Parameters*);
+  void lpushkv(DB*,Parameters*);
+  void rpopk(DB*,Parameters*);
+  void lpopk(DB*,Parameters*);
+  void rangek(DB*,Parameters*);
+  void rangekij(DB*,Parameters*);
+  void keypattern(DB*,Parameters*);
+  void inck(DB*,Parameters*);
+  void deck(DB*,Parameters*);
 #endif
