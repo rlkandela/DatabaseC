@@ -11,5 +11,5 @@
   }DB;
 
   DB* createDB(void);
-  void deleteDN();
+  void deleteDB(DB*);
 #endif
