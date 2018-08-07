@@ -13,4 +13,5 @@
 
   DB* createDB(void);
   void deleteDB(DB*);
+  void prompt(DB*);
 #endif
