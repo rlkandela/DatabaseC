@@ -1,6 +1,7 @@
 #ifndef __DATABASE__
 #define __DATABASE__
 #include <stdbool.h>
+#include "List.h"
 
   typedef struct DB{
       char *name;
