@@ -1,4 +1,5 @@
 #include "Database.h"
+#include "List.h"
 
 DB* createDB(){
   DB* ret = new(DB,1);
@@ -8,4 +9,10 @@ DB* createDB(){
   ret->active=-1;
   ret->saved=false;
   return ret;
+}
+
+void deleteDB(DB* db){
+  delete(db->name);
+  deleteList(db->list);
+  delete(db);
 }
