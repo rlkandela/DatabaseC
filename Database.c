@@ -16,3 +16,15 @@ void deleteDB(DB* db){
   deleteList(db->list);
   delete(db);
 }
+
+void prompt(DB* db){
+  if(db != nullptr){
+    if(db->saved){
+      printf("[%s]>> ",db->name);
+    }else{
+      printf("[%s]*>> ",db->name);
+    }
+  }else{
+    printf("[.]>> ");
+  }
+}
