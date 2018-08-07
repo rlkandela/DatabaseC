@@ -26,5 +26,7 @@
 #define delete(A) free(A)
 #define nullptr NULL
 #define new(T,N) (T*)malloc(N*sizeof(T))
+#define reff(T) T*
+#define refp(T) &T
 
 #endif
