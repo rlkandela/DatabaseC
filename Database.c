@@ -1,5 +1,7 @@
 #include "Database.h"
 #include "List.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 DB* createDB(){
   DB* ret = new(DB,1);
