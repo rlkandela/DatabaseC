@@ -10,7 +10,7 @@
       int size;
       int active;
       bool saved;
-      List *list;
+      List **list;
   }DB;
 
   DB* createDB(void);
