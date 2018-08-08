@@ -16,7 +16,7 @@
   DB* createDB(void);
   void deleteDB(DB*);
   void prompt(DB*);
-  void error(void);
+  void error(char*);
   void newDB(reff(DB*),Parameters*);
   void saveDB(DB*);
   void listDB(DB*);
