@@ -14,8 +14,15 @@ DB* createDB(){
 }
 
 void deleteDB(DB* db){
-  delete(db->name);
-  deleteList(db->list);
+  if(db->name!=nullptr){
+    delete(db->name);
+  }
+  if(db->list != nullptr){
+    for(int i = 0;i<db->size;i++){
+      makeNull(db->list[i]);
+      deleteList(db->list[i]);
+    }
+  }
   delete(db);
 }
 
@@ -33,4 +40,21 @@ void prompt(DB* db){
 
 void error(char* type){
   printf("Error. %s\n",type);
+}
+
+void newDB(reff(DB*) db, Parameters* param{
+  if((*db)!=nullptr){
+    deleteDB(*db);
+    (*db)=nullptr;
+  }
+  if((*db)==nullptr){
+    (*db)=createDB();
+    (*db)->name=new(char,strlen(param->param[0])+1);
+    strcpy((*db)->name,param->param[0]);
+    (*db)->list=new(List*,(*db)->size);
+    for(int i=0;i<(*db)->size;i++){
+      (*db)->list[i]=createList();
+    }
+    prompt(*db);
+  }
 }
