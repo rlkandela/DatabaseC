@@ -85,6 +85,38 @@ void listDB(DB* db){
   prompt(db);
 }
 
+void newcab(DB* db,Parameters* param){
+  if(db != nullptr){
+    bool already = false;
+    bool full = true;
+    for(short i=0;i<db->size;i++){
+      if(db->list[i].name == nullptr && full){
+        full=false;
+      }
+      if(db->list[i].name != nullptr && !already){
+        if(!strcmp(db->list[i].name,param->param[0])){
+          already=true;
+          error("The database already has that cabinet");
+        }
+      }
+    }
+    if(full){
+      error("The database is full");
+    }else if(!already){
+      bool done = false;
+      for(short i=0;i<db->size && !done;i++){
+        if(db->list[i].name == nullptr){
+          db->list[i].name = new(char,strlen(param->param[0])+1);
+          strcpy(db->list[i].name,param->param[0]);
+          done=true;
+        }
+      }
+    }
+  }else{
+    error("There is no active database");
+  }
+}
+
 void getExecutablePath(reff(char*) path){
   char aux[1000];
   uint32_t s=1000;
