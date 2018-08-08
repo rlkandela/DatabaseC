@@ -30,3 +30,7 @@ void prompt(DB* db){
     printf("[.]>> ");
   }
 }
+
+void error(char* type){
+  printf("Error. %s\n",type);
+}
