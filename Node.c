@@ -14,8 +14,12 @@ Node *createNode(void){
 }
 
 void deleteNode(Node* n){
-  delete(n->val);
-  delete(n->key);
+  if(n->val){
+    delete(n->val);
+  }
+  if(n->key){
+    delete(n->key);
+  }
   delete(n);
 }
 
