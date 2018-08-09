@@ -115,6 +115,23 @@ void newcab(DB* db,Parameters* param){
   }else{
     error("There is no active database");
   }
+  prompt(db);
+}
+
+void listcab(DB* db){
+  if(db != nullptr){
+    bool done=false;
+    for(short i = 0;i<db->size && !done;i++){
+      if(db->list[i].name != nullptr){
+        printf("%s\n",db->list[i].name);
+      }else{
+        done = true;
+      }
+    }
+  }else{
+    error("There is no active database");
+  }
+  prompt(db);
 }
 
 void getExecutablePath(reff(char*) path){
