@@ -126,6 +126,7 @@ void listcab(DB* db){
   }
   prompt(db);
 }
+
 void activecab(DB* db,Parameters* param){
   bool done = false;
   if(db != nullptr){
