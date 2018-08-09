@@ -2,10 +2,6 @@
 #include "List.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <mach-o/dyld.h>
-#include <sys/types.h>
 #include <dirent.h>
 #include <ctype.h>
 #include <string.h>
@@ -67,21 +63,18 @@ void newDB(reff(DB*) db, Parameters* param){
 }
 
 void listDB(DB* db){
-  char *path;
-  getExecutablePath(refp(path));
-  path=(char*)realloc(path,strlen(path)+6);
-  strcat(path,"DATA/");
-  DIR *d=opendir(path);
-  if(d){
-      struct dirent *p;
-      p=readdir(d);
-      while(p){
-          if(p->d_name[0]!='.')
-              printf("%s\n",p->d_name);
-          p=readdir(d);
-      }
+  struct dirent* p;
+  DIR* d = opendir(".");
+  if(d == NULL){
+    printf("Could not open current directory");
+    return;
   }
-  delete(path);
+  while((p = readdir(d)) != nullptr){
+    if(p->d_name[0]!='.'){
+      printf("%s\n", p->d_name);
+    }
+  }
+  closedir(d);
   prompt(db);
 }
 
@@ -90,11 +83,11 @@ void newcab(DB* db,Parameters* param){
     bool already = false;
     bool full = true;
     for(short i=0;i<db->size;i++){
-      if(db->list[i].name == nullptr && full){
+      if(db->list[i]->name == nullptr && full){
         full=false;
       }
-      if(db->list[i].name != nullptr && !already){
-        if(!strcmp(db->list[i].name,param->param[0])){
+      if(db->list[i]->name != nullptr && !already){
+        if(!strcmp(db->list[i]->name,param->param[0])){
           already=true;
           error("The database already has that cabinet");
         }
@@ -105,9 +98,9 @@ void newcab(DB* db,Parameters* param){
     }else if(!already){
       bool done = false;
       for(short i=0;i<db->size && !done;i++){
-        if(db->list[i].name == nullptr){
-          db->list[i].name = new(char,strlen(param->param[0])+1);
-          strcpy(db->list[i].name,param->param[0]);
+        if(db->list[i]->name == nullptr){
+          db->list[i]->name = new(char,strlen(param->param[0])+1);
+          strcpy(db->list[i]->name,param->param[0]);
           done=true;
         }
       }
@@ -122,8 +115,8 @@ void listcab(DB* db){
   if(db != nullptr){
     bool done=false;
     for(short i = 0;i<db->size && !done;i++){
-      if(db->list[i].name != nullptr){
-        printf("%s\n",db->list[i].name);
+      if(db->list[i]->name != nullptr){
+        printf("%s\n",db->list[i]->name);
       }else{
         done = true;
       }
@@ -132,23 +125,4 @@ void listcab(DB* db){
     error("There is no active database");
   }
   prompt(db);
-}
-
-void getExecutablePath(reff(char*) path){
-  char aux[1000];
-  uint32_t s=1000;
-  int tam=0;
-  _NSGetExecutablePath(aux,refp(s));
-  for(tam=strlen(aux)-1;tam>0;tam--){
-      if(aux[tam]=='.'){
-          aux[tam]='\0';
-          tam=0;
-      }
-  }
-  if(aux[strlen(aux)-1]!='/'){
-      aux[strlen(aux)+1]='\0';
-      aux[strlen(aux)]='/';
-  }
-  (*path)=new(char,strlen(aux)+1);
-  strcpy(*path,aux);
 }
