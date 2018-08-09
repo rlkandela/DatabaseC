@@ -36,5 +36,4 @@
   void keypattern(DB*,Parameters*);
   void inck(DB*,Parameters*);
   void deck(DB*,Parameters*);
-  void getExecutablePath(reff(char*));
 #endif
