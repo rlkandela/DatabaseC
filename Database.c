@@ -126,3 +126,22 @@ void listcab(DB* db){
   }
   prompt(db);
 }
+void activecab(DB* db,Parameters* param){
+  bool done = false;
+  if(db != nullptr){
+    for(short i=0;i<db->size && !done;i++){
+      if(db->list[i]->name != nullptr){
+        if(!strcmp(db->list[i]->name,param->param[0])){
+          db->active=i;
+          printf("The database %s is active now\n",db->list[db->active]->name);
+        }
+      }
+    }
+    if(!done){
+      printf("The database %s was not found\n",param->param[0]);
+    }
+  }else{
+    error("There is no active database");
+  }
+  prompt(db);
+}
