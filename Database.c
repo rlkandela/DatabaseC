@@ -102,6 +102,8 @@ void newcab(DB* db,Parameters* param){
           db->list[i]->name = new(char,strlen(param->param[0])+1);
           strcpy(db->list[i]->name,param->param[0]);
           done=true;
+          printf("The cabinet has been created\n");
+          db->saved=false;
         }
       }
     }
@@ -128,8 +130,8 @@ void listcab(DB* db){
 }
 
 void activecab(DB* db,Parameters* param){
-  bool done = false;
   if(db != nullptr){
+    bool done = false;
     for(short i=0;i<db->size && !done;i++){
       if(db->list[i]->name != nullptr){
         if(!strcmp(db->list[i]->name,param->param[0])){
@@ -140,6 +142,43 @@ void activecab(DB* db,Parameters* param){
     }
     if(!done){
       printf("The database %s was not found\n",param->param[0]);
+    }
+  }else{
+    error("There is no active database");
+  }
+  prompt(db);
+}
+
+void setkv(DB* db,Parameters *param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n){
+          delete(n->val);
+          n->val = new(char,strlen(param->param[1]+1));
+          strcpy(n->val,param->param[1]);
+          db->saved = false;
+          printf("The value has been changed\n");
+        }else{
+          n=createNode();
+          n->key = new(char,strlen(param->param[0])+1);
+          n->val = new(char,strlen(param->param[1])+1);
+          strcpy(n->key,param->param[0]);
+          strcpy(n->val,param->param[1]);
+          if(addNode(db->list[db->active],n)){
+            db->saved=false;
+            printf("The value was correctly added\n");
+          }else{
+            deleteNode(n);
+            printf("Unable to set the value\n");
+          }
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is no active cabinet");
     }
   }else{
     error("There is no active database");
