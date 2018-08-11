@@ -185,3 +185,29 @@ void setkv(DB* db,Parameters *param){
   }
   prompt(db);
 }
+
+void getk(DB* db,Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n){
+          if(!n->isList){
+            printf("%s\n",n->val);
+          }else{
+            printf("%s is a list, use range to see the elements\n",n->key);
+          }
+        }else{
+          error("Key not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is no active cabinet");
+    }
+  }else{
+    error("There is no active database");
+  }
+  prompt(db);
+}
