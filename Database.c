@@ -253,3 +253,24 @@ void rpushkv(DB* db, Parameters* param){
     error("There is no active database");
   }
 }
+
+void lpushkv(DB* db, Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          lpush(param->param[1],n);
+        }else{
+          error("Key not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is no active cabinet");
+    }
+  }else{
+    error("There is no active database");
+  }
+}
