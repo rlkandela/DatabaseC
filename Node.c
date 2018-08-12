@@ -109,3 +109,25 @@ int lsize(Node* n){
   }
   return ++ret;
 }
+
+Parameters* obtainValues(Node* n){
+  char aux[100];
+  Parameters* ret = new(Parameters,1);
+  initParam(ret);
+  ret->size = lsize(n);
+  printf("%d\n",ret->size);
+  ret->param = new(char*,ret->size);
+  for(int i=0,j=0,k=0;i<=strlen(n->val);i++,j++){
+    if((n->val[i] == LIST_SEPARATOR) || (n->val[i] == '\0')){
+      aux[j]=0;
+      j=-1;
+      printf("%d\n",k);
+      ret->param[k] = new(char,strlen(aux)+1);
+      strcpy(ret->param[k],aux);
+      k++;
+    }else{
+      aux[j]=n->val[i];
+    }
+  }
+  return ret;
+}
