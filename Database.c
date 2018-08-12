@@ -211,3 +211,23 @@ void getk(DB* db,Parameters* param){
   }
   prompt(db);
 }
+
+void delk(DB* db,Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        if(quitNode(db->list[db->active],searchKey(db->list[db->active],param->param[0]))){
+          printf("Key and value removed succesfuly\n");
+        }else{
+          error("Key not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is no active cabinet");
+    }
+  }else{
+    error("There is no active database");
+  }
+}
