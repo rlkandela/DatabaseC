@@ -8,4 +8,6 @@ typedef struct Date{
 
 Date* str2date(char*);
 char* date2str(Date*);
+bool validDate(Date*);
+bool validStr(char*);
 #endif
