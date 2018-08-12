@@ -284,7 +284,11 @@ void rpopk(DB* db, Parameters* param){
       if(db->list[db->active]->name != nullptr){
         Node* n = searchKey(db->list[db->active],param->param[0]);
         if(n != nullptr){
-          rpop(n);
+          if(n->isList){
+            rpop(n);
+          }else{
+            error("The element is not a list");
+          }
         }else{
           error("Key not found");
         }
@@ -306,7 +310,11 @@ void lpopk(DB* db, Parameters* param){
       if(db->list[db->active]->name != nullptr){
         Node* n = searchKey(db->list[db->active],param->param[0]);
         if(n != nullptr){
-          lpop(n);
+          if(n->isList){
+            lpop(n);
+          }else{
+            error("The element is not a list");
+          }
         }else{
           error("Key not found");
         }
