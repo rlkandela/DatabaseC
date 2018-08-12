@@ -137,6 +137,7 @@ void activecab(DB* db,Parameters* param){
         if(!strcmp(db->list[i]->name,param->param[0])){
           db->active=i;
           printf("The database %s is active now\n",db->list[db->active]->name);
+          done=true;
         }
       }
     }
@@ -218,6 +219,27 @@ void delk(DB* db,Parameters* param){
       if(db->list[db->active]->name != nullptr){
         if(quitNode(db->list[db->active],searchKey(db->list[db->active],param->param[0]))){
           printf("Key and value removed succesfuly\n");
+        }else{
+          error("Key not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is no active cabinet");
+    }
+  }else{
+    error("There is no active database");
+  }
+}
+
+void rpushkv(DB* db, Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          rpush(param->param[1],n);
         }else{
           error("Key not found");
         }
