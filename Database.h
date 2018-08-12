@@ -32,6 +32,8 @@
   void rpopk(DB*,Parameters*);
   void lpopk(DB*,Parameters*);
   void rangek(DB*,Parameters*);
+  void rankek1(DB*,Parameters*);
+  void rangek3(DB*,Parameters*);
   void rangekij(DB*,Parameters*);
   void keypattern(DB*,Parameters*);
   void inck(DB*,Parameters*);
