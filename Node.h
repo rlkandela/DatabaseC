@@ -1,7 +1,7 @@
 #ifndef __NODE__
 #define __NODE__
 #include <stdbool.h>
-
+#include "parameters.h"
   typedef struct Node{
       char* key;
       char* val;
