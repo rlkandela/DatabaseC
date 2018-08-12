@@ -329,3 +329,21 @@ void lpopk(DB* db, Parameters* param){
   }
   prompt(db);
 }
+
+void rangek(DB* db, Parameters* param){
+  if(param->size == 1){
+    rangek1(db,param);
+  }else if(param->size == 3){
+    rangek3(db,param);
+  }else{
+    error("Unknown error");
+  }
+}
+
+void rangek1(DB* db, Parameters* param){
+
+}
+
+void rangek3(DB* db, Parameters* param){
+  
+}
