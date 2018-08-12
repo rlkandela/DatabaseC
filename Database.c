@@ -231,6 +231,7 @@ void delk(DB* db,Parameters* param){
   }else{
     error("There is no active database");
   }
+  prompt(db);
 }
 
 void rpushkv(DB* db, Parameters* param){
@@ -252,6 +253,7 @@ void rpushkv(DB* db, Parameters* param){
   }else{
     error("There is no active database");
   }
+  prompt(db);
 }
 
 void lpushkv(DB* db, Parameters* param){
@@ -273,4 +275,49 @@ void lpushkv(DB* db, Parameters* param){
   }else{
     error("There is no active database");
   }
+  prompt(db);
+}
+
+void rpopk(DB* db, Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          rpop(n);
+        }else{
+          error("Key not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is no active cabinet");
+    }
+  }else{
+    error("There is no active database");
+  }
+  prompt(db);
+}
+
+void lpopk(DB* db, Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          lpop(n);
+        }else{
+          error("Key not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is no active cabinet");
+    }
+  }else{
+    error("There is no active database");
+  }
+  prompt(db);
 }
