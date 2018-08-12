@@ -420,3 +420,100 @@ void rangek3(DB* db, Parameters* param){
     error("There is not active database");
   }
 }
+
+void keypattern(DB* db,Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        int len = strlen(param->param[0]);
+        if((len == 1)&&(param->param[0][0] == '*')){
+          //ALL KEYS
+          Node* n = db->list[db->active]->head;
+          bool done=false;
+          while(n){
+            done=true;
+            printf("%s: %s\n",n->key,(n->isList)? "<LIST>":n->val);
+            n=n->next;
+          }
+          if(!done){
+            printf("Not found any element\n");
+          }
+        }else if(param->param[0][0] == '*'){
+          if(param->param[0][len-1] == '*'){
+            //*SUBSTR*
+            Node* n = db->list[db->active]->head;
+            bool done=false;
+            char aux[100];
+            char* aux2=param->param[0];
+            aux2++;
+            strcpy(aux,aux2);
+            aux[strlen(aux)-1]=0;
+            while(n){
+              char* ptr = strstr(n->key,aux);
+              if(ptr != nullptr){
+                done=true;
+                printf("%s: %s\n",n->key,(n->isList)? "<LIST>":n->val);
+              }
+              n=n->next;
+            }
+            if(!done){
+              printf("Not found any element\n");
+            }
+          }else{
+            //*SUBSTR
+            Node* n = db->list[db->active]->head;
+            bool done=false;
+            char aux[100];
+            char* aux2=param->param[0];
+            aux2++;
+            strcpy(aux,aux2);
+            while(n){
+              char* ptr = strstr(n->key,aux);
+              if((ptr != nullptr) && (strlen(ptr) == strlen(aux))){
+                done=true;
+                printf("%s: %s\n",n->key,(n->isList)? "<LIST>":n->val);
+              }
+              n=n->next;
+            }
+            if(!done){
+              printf("Not found any element\n");
+            }
+          }
+        }else if(param->param[0][len-1] == '*'){
+          //SUBSTR*
+          Node* n = db->list[db->active]->head;
+          bool done=false;
+          char aux[100];
+          strcpy(aux,param->param[0]);
+          aux[strlen(aux)-1]=0;
+          while(n){
+            char* ptr = strstr(n->key,aux);
+            if((ptr != nullptr) && (strlen(ptr) == strlen(n->key))){
+              done=true;
+              printf("%s: %s\n",n->key,(n->isList)? "<LIST>":n->val);
+            }
+            n=n->next;
+          }
+          if(!done){
+            printf("Not found any element\n");
+          }
+        }else{
+          //KEY
+          Node* n = searchKey(db->list[db->active],param->param[0]);
+          if(n != nullptr){
+            printf("%s: %s\n",n->key,(n->isList)? "<LIST>":n->val);
+          }else{
+            printf("Not found any element\n");
+          }
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is not active cabinet");
+    }
+  }else{
+    error("There is not active database");
+  }
+  prompt(db);
+}
