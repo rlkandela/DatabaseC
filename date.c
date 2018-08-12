@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 Date* str2date(char* str){
   Date* ret = new(Date,1);
@@ -41,4 +42,22 @@ char* date2str(Date* date){
   ret[9]=(date->day%10)+'0';
   ret[10]=0;
   return ret;
+}
+
+bool validStr(char* str){
+  if(strlen(str)==10){
+    for(int i=0;i<10;i++){
+      if(i==4 || i==7){
+        i++;
+      }
+      if(!isdigit(str[i])){
+        return false;
+      }
+    }
+    if((str[4]!='/' && str[4]!='-') || (str[7]!='/' && str[7]!='-')){
+      return false;
+    }
+    return true;
+  }
+  return false;
 }
