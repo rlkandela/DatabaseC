@@ -15,4 +15,6 @@
   void lpush(char*,Node*);
   void rpop(Node*);
   void lpop(Node*);
+  int lsize(Node*);
+  Parameters* obtainValues(Node*);
 #endif
