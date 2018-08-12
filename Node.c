@@ -99,3 +99,13 @@ void lpop(Node* n){
   n->isList=stiList;
   return;
 }
+
+int lsize(Node* n){
+  int ret=0;
+  for(int i=0;i<strlen(n->val);i++){
+    if(n->val[i]==LIST_SEPARATOR){
+      ret++;
+    }
+  }
+  return ++ret;
+}
