@@ -219,6 +219,7 @@ void delk(DB* db,Parameters* param){
       if(db->list[db->active]->name != nullptr){
         if(quitNode(db->list[db->active],searchKey(db->list[db->active],param->param[0]))){
           printf("Key and value removed succesfuly\n");
+          db->saved=false;
         }else{
           error("Key not found");
         }
@@ -241,6 +242,7 @@ void rpushkv(DB* db, Parameters* param){
         Node* n = searchKey(db->list[db->active],param->param[0]);
         if(n != nullptr){
           rpush(param->param[1],n);
+          db->saved=false;
         }else{
           error("Key not found");
         }
@@ -263,6 +265,7 @@ void lpushkv(DB* db, Parameters* param){
         Node* n = searchKey(db->list[db->active],param->param[0]);
         if(n != nullptr){
           lpush(param->param[1],n);
+          db->saved=false;
         }else{
           error("Key not found");
         }
@@ -286,6 +289,7 @@ void rpopk(DB* db, Parameters* param){
         if(n != nullptr){
           if(n->isList){
             rpop(n);
+            db->saved=false;
           }else{
             error("The element is not a list");
           }
@@ -312,6 +316,7 @@ void lpopk(DB* db, Parameters* param){
         if(n != nullptr){
           if(n->isList){
             lpop(n);
+            db->saved=false;
           }else{
             error("The element is not a list");
           }
@@ -338,12 +343,80 @@ void rangek(DB* db, Parameters* param){
   }else{
     error("Unknown error");
   }
+  prompt(db);
 }
 
 void rangek1(DB* db, Parameters* param){
-
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          if(n->isList){
+            Parameters* p = obtainValues(n);
+            for(int i=0;i<p->size;i++){
+              printf("%d: %s\n",i,p->param[i]);
+            }
+            deleteParam(p);
+          }else{
+            error("The element is not a list");
+          }
+        }else{
+          error("Element not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is not active cabinet");
+    }
+  }else{
+    error("There is not active database");
+  }
 }
 
 void rangek3(DB* db, Parameters* param){
-  
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          if(n->isList){
+            bool valid=true;
+            for(int j=1;j<param->size;j++){
+              for(int i=0;i<strlen(param->param[j]);i++){
+                if(!isdigit(param->param[j][i])){
+                  valid=false;
+                }
+              }
+            }
+            if(valid){
+              int p1 = atoi(param->param[1]),p2 = atoi(param->param[2]),size=lsize(n);
+              if(p1>=0 && p1<size && p2>=0 && p2<size && p1<=p2){
+                Parameters* p = obtainValues(n);
+                for(int i=p1;i<=p2;i++){
+                  printf("%d: %s\n",i,p->param[i]);
+                }
+                deleteParam(p);
+              }else{
+                error("Not valid parameters");
+              }
+            }else{
+              error("Not valid parameters");
+            }
+          }else{
+            error("The element is not a list");
+          }
+        }else{
+          error("Element not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is not active cabinet");
+    }
+  }else{
+    error("There is not active database");
+  }
 }
