@@ -534,7 +534,75 @@ void inck(DB* db, Parameters* param){
                 d->month++;
                 if(!validDate(d)){
                   d->month=1;
-                  d->year++
+                  d->year++;
+                }
+              }
+              delete(n->val);
+              n->val = date2str(d);
+              db->saved=false;
+            }else{
+              error("Not valid date");
+            }
+            delete(d);
+          }else{
+            error("Not valid date");
+          }
+        }else{
+          error("Element not found");
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is not active cabinet");
+    }
+  }else{
+    error("There is not active database");
+  }
+  prompt(db);
+}
+
+void deck(DB* db,Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          if(validStr(n->val)){
+            Date* d = str2date(n->val);
+            if(validDate(d)){
+              if(d->day>1){
+                d->day--;
+              }else{
+                switch(d->month){
+                  case 1:
+                    d->day=31;
+                    d->month=12;
+                    d->year--;
+                  break;
+                  case 2:
+                  case 4:
+                  case 6:
+                  case 8:
+                  case 9:
+                  case 11:
+                    d->day=31;
+                    d->month--;
+                  break;
+                  case 3:
+                    d->day=28;
+                    if(d->year%4 == 0){
+                      d->day++;
+                    }
+                    d->month--;
+                  break;
+                  case 5:
+                  case 7:
+                  case 10:
+                  case 12:
+                  d->day=30;
+                  d->month--;
+                  break;
                 }
               }
               delete(n->val);
