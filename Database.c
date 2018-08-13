@@ -1,5 +1,6 @@
 #include "Database.h"
 #include "List.h"
+#include "date.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <dirent.h>
@@ -505,6 +506,49 @@ void keypattern(DB* db,Parameters* param){
           }else{
             printf("Not found any element\n");
           }
+        }
+      }else{
+        error("The cabinet does not exist");
+      }
+    }else{
+      error("There is not active cabinet");
+    }
+  }else{
+    error("There is not active database");
+  }
+  prompt(db);
+}
+
+void inck(DB* db, Parameters* param){
+  if(db != nullptr){
+    if(db->active >= 0){
+      if(db->list[db->active]->name != nullptr){
+        Node* n = searchKey(db->list[db->active],param->param[0]);
+        if(n != nullptr){
+          if(validStr(n->val)){
+            Date* d = str2date(n->val);
+            if(validDate(d)){
+              d->day++;
+              if(!validDate(d)){
+                d->day=1;
+                d->month++;
+                if(!validDate(d)){
+                  d->month=1;
+                  d->year++
+                }
+              }
+              delete(n->val);
+              n->val = date2str(d);
+              db->saved=false;
+            }else{
+              error("Not valid date");
+            }
+            delete(d);
+          }else{
+            error("Not valid date");
+          }
+        }else{
+          error("Element not found");
         }
       }else{
         error("The cabinet does not exist");
