@@ -18,16 +18,18 @@ DB* createDB(){
 }
 
 void deleteDB(DB* db){
-  if(db->name!=nullptr){
-    delete(db->name);
-  }
-  if(db->list != nullptr){
-    for(int i = 0;i<db->size;i++){
-      makeNull(db->list[i]);
-      deleteList(db->list[i]);
+  if(db != nullptr){
+    if(db->name!=nullptr){
+      delete(db->name);
     }
+    if(db->list != nullptr){
+      for(int i = 0;i<db->size;i++){
+        makeNull(db->list[i]);
+        deleteList(db->list[i]);
+      }
+    }
+    delete(db);
   }
-  delete(db);
 }
 
 void prompt(DB* db){

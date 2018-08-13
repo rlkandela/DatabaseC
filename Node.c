@@ -14,13 +14,15 @@ Node *createNode(void){
 }
 
 void deleteNode(Node* n){
-  if(n->val){
-    delete(n->val);
+  if(n != nullptr){
+    if(n->val){
+      delete(n->val);
+    }
+    if(n->key){
+      delete(n->key);
+    }
+    delete(n);
   }
-  if(n->key){
-    delete(n->key);
-  }
-  delete(n);
 }
 
 void rpush(char* toAdd, Node* n){

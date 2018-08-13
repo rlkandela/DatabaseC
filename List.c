@@ -14,8 +14,12 @@ List* createList(void){
 }
 
 void deleteList(List* l){
-  delete(l->name);
-  delete(l);
+  if(l!=nullptr){
+    if(l->name != nullptr){
+      delete(l->name);
+    }
+    delete(l);
+  }
   return;
 }
 
@@ -95,7 +99,7 @@ Node* previousNode(List* l, Node* nd){
 }
 
 bool quitNode(List* l, Node* n){
-  if(n == l->head){
+  if(n == l->head && n!= nullptr){
     l->head = l->head->next;
     deleteNode(n);
     l->size--;
