@@ -61,3 +61,48 @@ bool validStr(char* str){
   }
   return false;
 }
+
+bool validDate(Date* date){
+  switch (date->month) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      if(date->day>=1 && date->day<=31){
+        return true;
+      }else{
+        return false;
+      }
+    break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+      if(date->day>=1 && date->day<=30){
+        return true;
+      }else{
+        return false;
+      }
+    break;
+    case 2:
+     if(date->year%4==0){
+       if(date->day>=1 && date->day<=29){
+         return true;
+       }else{
+         return false;
+       }
+     }else{
+       if(date->day>=1 && date->day<=28){
+         return true;
+       }else{
+         return false;
+       }
+     }
+    break;
+    default:
+      return false;
+  }
+}
