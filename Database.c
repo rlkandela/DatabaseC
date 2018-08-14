@@ -27,6 +27,7 @@ void deleteDB(DB* db){
         makeNull(db->list[i]);
         deleteList(db->list[i]);
       }
+      delete(db->list);
     }
     delete(db);
   }
