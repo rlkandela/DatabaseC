@@ -8,6 +8,7 @@ int askForCommand(Parameters* param){
   char input[300];
   char* function;
   int ret=0;
+  fseek(stdin,0,SEEK_END);
   gets(input);
   ret=ProcessInput(input, &function, param);
   if(ret){
