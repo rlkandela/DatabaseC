@@ -139,7 +139,7 @@ void activecab(DB* db,Parameters* param){
       if(db->list[i]->name != nullptr){
         if(!strcmp(db->list[i]->name,param->param[0])){
           db->active=i;
-          printf("The database %s is active now\n",db->list[db->active]->name);
+          printf("The cabinet %s is active now\n",db->list[db->active]->name);
           done=true;
         }
       }
