@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <assert.h>
+
 Node *createNode(void){
   Node* ret = new(Node,1);
   ret->key = nullptr;
@@ -33,7 +35,7 @@ void rpush(char* toAdd, Node* n){
   aux[len] = LIST_SEPARATOR;
   aux[len+1] = 0;
   strcat(aux,toAdd);
-  len = strlen(n->val);
+  len = strlen(aux);
   delete(n->val);
   n->val = new(char,len+1);
   strcpy(n->val,aux);
