@@ -68,9 +68,10 @@ void newDB(reff(DB*) db, Parameters* param){
 
 void listDB(DB* db){
   struct dirent* p;
-  DIR* d = opendir(".");
+  DIR* d = opendir("./DATA/");
   if(d == NULL){
-    printf("Could not open current directory");
+    printf("Could not open the directory, DATA folder is not created yet\n");
+    prompt(db);
     return;
   }
   while((p = readdir(d)) != nullptr){
