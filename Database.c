@@ -6,6 +6,9 @@
 #include <dirent.h>
 #include <ctype.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 
 DB* createDB(){
   DB* ret = new(DB,1);
@@ -63,6 +66,119 @@ void newDB(reff(DB*) db, Parameters* param){
       (*db)->list[i]=createList();
     }
     prompt(*db);
+  }
+}
+
+void saveDB(DB* db){
+  if(db != nullptr){
+    if(!db->saved){
+      mode_t mask = umask(0);
+      umask(mask);
+      if(!DirCheck(".","DATA")){
+        if(mkdir("DATA/",0777-mask) == -1){
+          perror("exe");
+          exit(EXIT_FAILURE);
+        }
+      }
+      char aux[500];
+      strcpy(aux,"./DATA/");
+      strcat(aux,db->name);
+      remove_directory(aux);
+      if(mkdir(aux,0777-mask) == -1){
+        perror("exe");
+        exit(EXIT_FAILURE);
+      }
+      char aux2[500];
+      for(int i=0;i<db->size && db->list[i]->name!=nullptr; i++){
+        strcpy(aux2,aux);
+        strcat(aux2,"/");
+        strcat(aux2,db->list[i]->name);
+        strcat(aux2,"/");
+        if(mkdir(aux2,0777-mask) == -1){
+          perror("exe");
+          exit(EXIT_FAILURE);
+        }
+        savecab(db->list[i],aux2);
+      }
+      db->saved = true;
+      prompt(db);
+    }
+  }
+}
+
+int remove_directory(const char *path)
+{
+ DIR *d = opendir(path);
+ size_t path_len = strlen(path);
+ int r = -1;
+ if (d){
+  struct dirent *p;
+  r = 0;
+  while(!r && (p=readdir(d))){
+    int r2 = -1;
+    char *buf;
+    size_t len;
+    if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, "..")){
+      continue;
+    }
+    len = path_len + strlen(p->d_name) + 2;
+    buf = malloc(len);
+    if (buf){
+     struct stat statbuf;
+     snprintf(buf, len, "%s/%s", path, p->d_name);
+     if (!stat(buf, &statbuf)){
+      if (S_ISDIR(statbuf.st_mode)){
+        r2 = remove_directory(buf);
+      }
+      else{
+        r2 = unlink(buf);
+      }
+    }
+     free(buf);
+    }
+    r = r2;
+  }
+  closedir(d);
+ }
+ if(!r){
+    r = rmdir(path);
+ }
+ return r;
+}
+
+bool DirCheck(char* path,char* name){
+  DIR* d = opendir(path);
+  if(d == NULL){
+    printf("Could not open the path\n");
+    return false;
+  }
+  bool ret=false;
+  struct dirent* p;
+  while((p = readdir(d)) != nullptr){
+    if(!strcmp(p->d_name,name)){
+      ret=true;
+    }
+  }
+  closedir(d);
+  return ret;
+}
+
+void savecab(List* l,char* path){
+  char pathcopy[500];
+  Node* n = l->head;
+  while(n){
+    strcpy(pathcopy,path);
+    strcat(pathcopy,n->key);
+    FILE* file;
+    file = fopen(pathcopy,"w");
+    if(file){
+      fprintf(file,"%s",n->val);
+      fclose(file);
+    }else{
+      perror("exe");
+      exit(EXIT_FAILURE);
+    }
+    n=n->next;
   }
 }
 
