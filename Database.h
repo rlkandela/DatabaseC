@@ -19,6 +19,9 @@
   void error(char*);
   void newDB(reff(DB*),Parameters*);
   void saveDB(DB*);
+  int remove_directory(const char *path);
+  bool DirCheck(char*,char*);
+  void savecab(List*,char*);
   void listDB(DB*);
   void activeDB(reff(DB*),Parameters*);
   void newcab(DB*,Parameters*);
