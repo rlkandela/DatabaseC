@@ -199,6 +199,97 @@ void listDB(DB* db){
   prompt(db);
 }
 
+void activeDB(DB** db,Parameters* param){
+  if(DirCheck(".","DATA")){
+    if(DirCheck("./DATA",param->param[0])){
+      if((*db) != nullptr){
+        delete(*db);
+        (*db) = nullptr;
+      }
+      if((*db) == nullptr){
+        (*db) = createDB();
+        (*db)->name = new(char,strlen(param->param[0])+1);
+        strcpy((*db)->name,param->param[0]);
+        (*db)->list=new(List*,(*db)->size);
+        for(int i=0;i<(*db)->size;i++){
+          (*db)->list[i]=createList();
+        }
+        (*db)->saved = true;
+        char aux [100];
+        strcpy(aux,"./DATA/");
+        strcat(aux,param->param[0]);
+        DIR* d = opendir(aux);
+        struct dirent* p;
+        int cont = 0;
+        while((p = readdir(d)) != nullptr){
+          if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, "..")){
+            continue;
+          }
+          if(p->d_name[0] == '.'){
+            continue;
+          }
+          if(cont == 5){
+            error("The directory has too many subdirectories");
+            perror("exe");
+            exit(EXIT_FAILURE);
+          }
+          (*db)->list[cont]->name = new(char,strlen(p->d_name)+1);
+          strcpy((*db)->list[cont]->name,p->d_name);
+          struct dirent* pp;
+          char aux2[100];
+          strcpy(aux2,aux);
+          strcat(aux2,"/");
+          strcat(aux2,p->d_name);
+          DIR* dd = opendir(aux2);
+          while((pp = readdir(dd)) != nullptr){
+            if (!strcmp(pp->d_name, ".") || !strcmp(pp->d_name, "..")){
+              continue;
+            }
+            if(pp->d_name[0]=='.'){
+              continue;
+            }
+            char filename[200];
+            strcpy(filename,aux2);
+            strcat(filename,"/");
+            strcat(filename,pp->d_name);
+            Node* n = createNode();
+            n->key = new(char,strlen(pp->d_name)+1);
+            strcpy(n->key,pp->d_name);
+            FILE *fil;
+            fil=fopen(filename,"r");
+            if(fil == nullptr){
+              error("Could not open the file");
+              perror("exe");
+              exit(EXIT_FAILURE);
+            }
+            char filecont[1000];
+            fscanf(fil,"%s",filecont);
+            n->val = new(char,strlen(filecont)+1);
+            strcpy(n->val,filecont);
+            char lsprtr[2];
+            char* checkList=nullptr;
+            lsprtr[0]=LIST_SEPARATOR;
+            lsprtr[1]=0;
+            checkList=strstr(filecont,lsprtr);
+            if(checkList!=nullptr){
+              n->isList=true;
+            }
+            addNode((*db)->list[cont],n);
+          }
+          closedir(dd);
+          cont++;
+        }
+        closedir(d);
+      }
+    }else{
+      error("Database not found");
+    }
+  }else{
+    error("DATA directory is not created yet");
+  }
+  prompt(*db);
+}
+
 void newcab(DB* db,Parameters* param){
   if(db != nullptr){
     bool already = false;
