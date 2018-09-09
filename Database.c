@@ -74,14 +74,14 @@ void saveDB(DB* db){
     if(!db->saved){
       mode_t mask = umask(0);
       umask(mask);
-      if(!DirCheck(".","DATA")){
-        if(mkdir("DATA/",0777-mask) == -1){
+      if(!DirCheck(".",".DATA")){
+        if(mkdir(".DATA/",0777-mask) == -1){
           perror("exe");
           exit(EXIT_FAILURE);
         }
       }
       char aux[500];
-      strcpy(aux,"./DATA/");
+      strcpy(aux,"./.DATA/");
       strcat(aux,db->name);
       remove_directory(aux);
       if(mkdir(aux,0777-mask) == -1){
@@ -184,7 +184,7 @@ void savecab(List* l,char* path){
 
 void listDB(DB* db){
   struct dirent* p;
-  DIR* d = opendir("./DATA/");
+  DIR* d = opendir("./.DATA/");
   if(d == NULL){
     printf("Could not open the directory, DATA folder is not created yet\n");
     prompt(db);
@@ -200,8 +200,8 @@ void listDB(DB* db){
 }
 
 void activeDB(DB** db,Parameters* param){
-  if(DirCheck(".","DATA")){
-    if(DirCheck("./DATA",param->param[0])){
+  if(DirCheck(".",".DATA")){
+    if(DirCheck("./.DATA",param->param[0])){
       if((*db) != nullptr){
         delete(*db);
         (*db) = nullptr;
@@ -216,7 +216,7 @@ void activeDB(DB** db,Parameters* param){
         }
         (*db)->saved = true;
         char aux [100];
-        strcpy(aux,"./DATA/");
+        strcpy(aux,"./.DATA/");
         strcat(aux,param->param[0]);
         DIR* d = opendir(aux);
         struct dirent* p;
